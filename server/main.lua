@@ -225,7 +225,7 @@ AddEventHandler('es:playerLoaded', function(source, _player)
 						print(('[es_extended] [^3WARNING^7] Ignoring invalid org for %s [org: %s, grade: %s]'):format(player.getIdentifier(), org, grade))
 
 						local org, grade = 'none', '0'
-						local orgObject, gradeorgObject = ESX.jobs[org], ESX.Jobs[org].grades[gradeorg]
+						local orgObject, gradeorgObject = ESX.Jobs[org], ESX.Jobs[org].grades[gradeorg]
 
 						userData.org = {}
 
