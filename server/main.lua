@@ -192,42 +192,6 @@ AddEventHandler('es:playerLoaded', function(source, _player)
 
 		end)
 
-		-- Run Tasks
-		Async.parallel(tasks, function(results)
-			local xPlayer = CreateExtendedPlayer(player, userData.accounts, userData.inventory, userData.job, userData.loadout, userData.playerName, userData.lastPosition)
-
-			xPlayer.getMissingAccounts(function(missingAccounts)
-				if #missingAccounts > 0 then
-					for i=1, #missingAccounts, 1 do
-						table.insert(xPlayer.accounts, {
-							name  = missingAccounts[i],
-							money = 0,
-							label = Config.AccountLabels[missingAccounts[i]]
-						})
-					end
-
-					xPlayer.createAccounts(missingAccounts)
-				end
-
-				ESX.Players[playerId] = xPlayer
-
-				TriggerEvent('esx:playerLoaded', playerId, xPlayer)
-
-				TriggerClientEvent('esx:playerLoaded', playerId, {
-					identifier   = xPlayer.identifier,
-					accounts     = xPlayer.getAccounts(),
-					inventory    = xPlayer.getInventory(),
-					job          = xPlayer.getJob(),
-					loadout      = xPlayer.getLoadout(),
-					lastPosition = xPlayer.getLastPosition(),
-					money        = xPlayer.getMoney(),
-					maxWeight    = xPlayer.maxWeight
-				})
-
-				xPlayer.displayMoney(xPlayer.getMoney())
-				TriggerClientEvent('esx:createMissingPickups', playerId, ESX.Pickups)
-			end)
-		end)
 		-- ORG INCLUDED
 		table.insert(tasks2, function(cb2)
 
