@@ -192,7 +192,7 @@ AddEventHandler('es:playerLoaded', function(source, _player)
 		-- ORG INCLUDED
 		table.insert(tasks2, function(cb2)
 
-				MySQL.Async.fetchAll('SELECT org, gradeorg, loadout, position FROM users WHERE identifier = @identifier', {
+				MySQL.Async.fetchAll('SELECT org, org_gradeorg, loadout, position FROM users WHERE identifier = @identifier', {
 					['@identifier'] = player.getIdentifier()
 				}, function(result)
 					local org, grade = result[1].org, tostring(result[1].gradeorg)
