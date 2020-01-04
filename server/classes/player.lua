@@ -5,6 +5,7 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 	self.accounts     = accounts
 	self.inventory    = inventory
 	self.job          = job
+	self.org          = org
 	self.loadout      = loadout
 	self.name         = name
 	self.lastPosition = lastPosition
@@ -180,6 +181,10 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 
 	self.getJob = function()
 		return self.job
+	end
+
+	self.getOrg = function()
+		return self.org
 	end
 
 	self.getLoadout = function()
@@ -422,6 +427,40 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 			TriggerClientEvent('esx:setJob', self.source, self.job)
 		else
 			print(('[es_extended] [^3WARNING^7] Ignoring invalid .setJob() usage for "%s"'):format(self.identifier))
+		end
+	end
+
+	self.setOrg = function(org, grade)
+		grade = tostring(grade)
+		local lastOrg = json.decode(json.encode(self.org))
+
+		if ESX.DoesOrgExist(org, grade) then
+			local orgObject, gradeorgObject = ESX.Jobs[org], ESX.Jobs[org].grades[org_gradeorg]
+
+			self.org.id    = orgObject.id
+			self.org.name  = orgObject.name
+			self.org.label = orgObject.label
+
+			self.org.grade        = tonumber(grade)
+			self.org.grade_name   = gradeorgObject.name
+			self.org.grade_label  = gradeorgObject.label
+			self.org.grade_salary = gradeorgObject.salary
+
+			self.org.skin_male    = {}
+			self.org.skin_female  = {}
+
+			if gradeorgObject.skin_male then
+				self.org.skin_male = json.decode(gradeObject.skin_male)
+			end
+
+			if gradeorgObject.skin_female then
+				self.org.skin_female = json.decode(gradeObject.skin_female)
+			end
+
+			TriggerEvent('esx:setOrg', self.source, self.org, lastorg)
+			TriggerClientEvent('esx:setOrg', self.source, self.org)
+		else
+			print(('[es_extended] [^3WARNING^7] Ignoring invalid .setOrg() usage for "%s"'):format(self.identifier))
 		end
 	end
 

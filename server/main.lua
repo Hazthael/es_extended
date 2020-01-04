@@ -195,10 +195,10 @@ AddEventHandler('es:playerLoaded', function(source, _player)
 				MySQL.Async.fetchAll('SELECT org, org_gradeorg, loadout, position FROM users WHERE identifier = @identifier', {
 					['@identifier'] = player.getIdentifier()
 				}, function(result)
-					local org, grade = result[1].org, tostring(result[1].gradeorg)
+					local org, grade = result[1].org, tostring(result[1].org_gradeorg)
 
 					if ESX.DoesOrgExist(org, grade) then
-						local orgObject, gradeorgObject = ESX.Jobs[org], ESX.Jobs[org].grades[or_gradeorg]
+						local orgObject, gradeorgObject = ESX.Jobs[org], ESX.Jobs[org].grades[org_gradeorg]
 
 						userData.org = {}
 
