@@ -195,9 +195,9 @@ ESX.DoesJobExist = function(job, grade)
 end
 
 ESX.DoesOrgExist = function(org, grade)
-	grade = tostring(gradeorg)
+	grade = tostring(org_gradeorg)
 
-	if org and gradeorg then
+	if org and grade then
 		if ESX.Orgs[org] and ESX.Orgs[org].grades[org_gradeorg] then
 			return true
 		end
