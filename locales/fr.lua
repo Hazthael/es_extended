@@ -43,6 +43,8 @@ Locales['fr'] = {
   -- Salary related
   ['received_salary'] = 'vous avez reçu votre salaire: ~g~$%s~s~',
   ['received_help'] = 'vous avez reçu une aide de l\'état: ~g~$%s~s~',
+  ['received_salary2'] = 'vous avez reçu votre salaire: ~g~$%s~s~',
+  ['received_help2'] = 'vous avez reçu une aide de l\'état: ~g~$%s~s~',
   ['company_nomoney'] = 'votre entreprise n\'a plus d\'argent pour vous payer!',
   ['received_paycheck'] = 'paiement reçu',
   ['bank'] = 'banque',
@@ -53,9 +55,10 @@ Locales['fr'] = {
 
   -- Commands
   ['setjob'] = 'assigner job',
+  ['setorg'] = 'assigner org',
   ['id_param'] = 'identification du joueur',
-  ['setjob_param2'] = 'le travail que vous souhaitez assigner',
-  ['setjob_param3'] = 'le niveau d\'emploi',
+  ['setorg_param2'] = 'le travail que vous souhaitez assigner',
+  ['setorg_param3'] = 'le niveau d\'emploi',
   ['spawn_car'] = 'spawn un véhicule',
   ['spawn_car_param'] = 'nom de la voiture',
   ['delete_vehicle'] = 'supprimer le véhicule',

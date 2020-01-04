@@ -35,6 +35,23 @@ AddEventHandler('esx:playerLoaded', function(xPlayer)
 			job_label   = xPlayer.job.label,
 			grade_label = xPlayer.job.grade_label
 		})
+
+		local orgTpl = '<div>{{org_label}} - {{gradeorg_label}}</div>'
+
+		if xPlayer.org.gradeorg_label == '' then
+			orgTpl = '<div>{{org_label}}</div>'
+		end
+
+		ESX.UI.HUD.RegisterElement('org', #xPlayer.accounts, 0, orgTpl, {
+			org_label   = '',
+			gradeorg_label = ''
+		})
+
+		ESX.UI.HUD.UpdateElement('org', {
+			org_label   = xPlayer.org.label,
+			grade_label = xPlayer.org.gradeorg_label
+		})
+
 	else
 		TriggerEvent('es:setMoneyDisplay', 0.0)
 	end
@@ -169,6 +186,11 @@ AddEventHandler('esx:setJob', function(job)
 	ESX.PlayerData.job = job
 end)
 
+RegisterNetEvent('esx:setOrg')
+AddEventHandler('esx:setOrg', function(org)
+	ESX.PlayerData.org = org
+end)
+
 RegisterNetEvent('esx:addWeapon')
 AddEventHandler('esx:addWeapon', function(weaponName, ammo)
 	local playerPed  = PlayerPedId()
@@ -244,6 +266,16 @@ AddEventHandler('esx:setJob', function(job)
 		ESX.UI.HUD.UpdateElement('job', {
 			job_label   = job.label,
 			grade_label = job.grade_label
+		})
+	end
+end)
+
+RegisterNetEvent('esx:setOrg')
+AddEventHandler('esx:setOrg', function(org)
+	if Config.EnableHud then
+		ESX.UI.HUD.UpdateElement('org', {
+			org_label   = org.label,
+			gradeorg_label = org.gradeorg_label
 		})
 	end
 end)

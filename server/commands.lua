@@ -44,6 +44,30 @@ end, {help = _U('setjob'), params = {
 	{name = 'grade_id', help = _U('setjob_param3')}
 }})
 
+TriggerEvent('es:addGroupCommand', 'setorg', 'jobmaster', function(source, args, user)
+	if tonumber(args[1]) and args[2] and tonumber(args[3]) then
+		local xPlayer = ESX.GetPlayerFromId(args[1])
+
+		if xPlayer then
+			if ESX.DoesOrgExist(args[2], args[3]) then
+				xPlayer.setOrg(args[2], args[3])
+			else
+				TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'That org does not exist.' } })
+			end
+		else
+			TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Player not online.' } })
+		end
+	else
+		TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Invalid usage.' } })
+	end
+end, function(source, args, user)
+	TriggerClientEvent('chat:addMessage', source, { args = { '^1SYSTEM', 'Insufficient Permissions.' } })
+end, {help = _U('setorg'), params = {
+	{name = 'playerId', help = _U('id_param')},
+	{name = 'org', help = _U('setorg_param2')},
+	{name = 'grade_id', help = _U('setorg_param3')}
+}})
+
 TriggerEvent('es:addGroupCommand', 'car', 'admin', function(source, args, user)
 	TriggerClientEvent('esx:spawnVehicle', source, args[1])
 end, function(source, args, user)

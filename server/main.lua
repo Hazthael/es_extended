@@ -6,6 +6,7 @@ AddEventHandler('es:playerLoaded', function(source, _player)
 		accounts     = {},
 		inventory    = {},
 		job          = {},
+		org			 = {},=
 		loadout      = {},
 		playerName   = GetPlayerName(playerId),
 		lastPosition = nil
@@ -217,6 +218,119 @@ AddEventHandler('es:playerLoaded', function(source, _player)
 					accounts     = xPlayer.getAccounts(),
 					inventory    = xPlayer.getInventory(),
 					job          = xPlayer.getJob(),
+					loadout      = xPlayer.getLoadout(),
+					lastPosition = xPlayer.getLastPosition(),
+					money        = xPlayer.getMoney(),
+					maxWeight    = xPlayer.maxWeight
+				})
+
+				xPlayer.displayMoney(xPlayer.getMoney())
+				TriggerClientEvent('esx:createMissingPickups', playerId, ESX.Pickups)
+			end)
+		end)
+		-- ORG INCLUDED
+		table.insert(tasks2, function(cb2)
+
+				MySQL.Async.fetchAll('SELECT org, gradeorg, loadout, position FROM users WHERE identifier = @identifier', {
+					['@identifier'] = player.getIdentifier()
+				}, function(result)
+					local org, grade = result[1].org, tostring(result[1].gradeorg)
+
+					if ESX.DoesOrgExist(org, grade) then
+						local orgObject, gradeorgObject = ESX.Orgs[org], ESX.orgs[org].grades[gradeorg]
+
+						userData.org = {}
+
+						userData.org.id    = orgObject.id
+						userData.org.name  = orgObject.name
+						userData.org.label = orgObject.label
+
+						userData.org.gradeorg        = tonumber(grade)
+						userData.org.gradeorg_name   = gradeorgObject.name
+						userData.org.gradeorg_label  = gradeorgObject.label
+						userData.org.gradeorg_salary = gradeorgObject.salary
+
+						userData.org.skin_male    = {}
+						userData.org.skin_female  = {}
+
+						if gradeorgObject.skin_male ~= nil then
+							userData.org.skin_male = json.decode(gradeorgObject.skin_male)
+						end
+
+						if gradeorgObject.skin_female ~= nil then
+							userData.org.skin_female = json.decode(gradeorgObject.skin_female)
+						end
+					else
+						print(('[es_extended] [^3WARNING^7] Ignoring invalid org for %s [org: %s, grade: %s]'):format(player.getIdentifier(), org, grade))
+
+						local org, grade = 'none', '0'
+						local orgObject, gradeorgObject = ESX.Orgs[org], ESX.Orgs[org].grades[gradeorg]
+
+						userData.org = {}
+
+						userData.org.id    = orgObject.id
+						userData.org.name  = orgObject.name
+						userData.org.label = orgObject.label
+
+						userData.org.grade        = tonumber(grade)
+						userData.org.grade_name   = gradeorgObject.name
+						userData.org.grade_label  = gradeorgObject.label
+						userData.org.grade_salary = gradeorgObject.salary
+
+						userData.org.skin_male    = {}
+						userData.org.skin_female  = {}
+					end
+
+					if result[1].loadout ~= nil then
+						userData.loadout = json.decode(result[1].loadout)
+
+						-- Compatibility with old loadouts prior to components update
+						for k,v in ipairs(userData.loadout) do
+							if v.components == nil then
+								v.components = {}
+							end
+						end
+					end
+
+					if result[1].position ~= nil then
+						userData.lastPosition = json.decode(result[1].position)
+					end
+
+					cb2()
+				end)
+
+			end)
+
+			Async.series(tasks2, cb)
+
+		end)
+
+		-- Run Tasks
+		Async.parallel(tasks, function(results)
+			local xPlayer = CreateExtendedPlayer(player, userData.accounts, userData.inventory, userData.org, userData.loadout, userData.playerName, userData.lastPosition)
+
+			xPlayer.getMissingAccounts(function(missingAccounts)
+				if #missingAccounts > 0 then
+					for i=1, #missingAccounts, 1 do
+						table.insert(xPlayer.accounts, {
+							name  = missingAccounts[i],
+							money = 0,
+							label = Config.AccountLabels[missingAccounts[i]]
+						})
+					end
+
+					xPlayer.createAccounts(missingAccounts)
+				end
+
+				ESX.Players[playerId] = xPlayer
+
+				TriggerEvent('esx:playerLoaded', playerId, xPlayer)
+
+				TriggerClientEvent('esx:playerLoaded', playerId, {
+					identifier   = xPlayer.identifier,
+					accounts     = xPlayer.getAccounts(),
+					inventory    = xPlayer.getInventory(),
+					org          = xPlayer.getOrg(),
 					loadout      = xPlayer.getLoadout(),
 					lastPosition = xPlayer.getLastPosition(),
 					money        = xPlayer.getMoney(),
@@ -462,6 +576,7 @@ ESX.RegisterServerCallback('esx:getPlayerData', function(source, cb)
 		accounts     = xPlayer.getAccounts(),
 		inventory    = xPlayer.getInventory(),
 		job          = xPlayer.getJob(),
+		org          = xPlayer.getOrg(),
 		loadout      = xPlayer.getLoadout(),
 		lastPosition = xPlayer.getLastPosition(),
 		money        = xPlayer.getMoney()
@@ -476,6 +591,7 @@ ESX.RegisterServerCallback('esx:getOtherPlayerData', function(source, cb, target
 		accounts     = xPlayer.getAccounts(),
 		inventory    = xPlayer.getInventory(),
 		job          = xPlayer.getJob(),
+		org          = xPlayer.getOrg(),
 		loadout      = xPlayer.getLoadout(),
 		lastPosition = xPlayer.getLastPosition(),
 		money        = xPlayer.getMoney()

@@ -45,6 +45,7 @@ Locales['en'] = {
   ['received_help'] = 'you recieved your welfare check: ~g~$%s~s~',
   ['company_nomoney'] = 'the company you\'re employeed at is too poor to pay out your salary',
   ['received_paycheck'] = 'received paycheck',
+  ['received_paycheck2'] = 'received paycheck',
   ['bank'] = 'bank',
   ['black_money'] = 'dirty Money',
 
@@ -53,9 +54,12 @@ Locales['en'] = {
 
   -- Commands
   ['setjob'] = 'assign a job to a user',
+  ['setorg'] = 'assign a org to a user',
   ['id_param'] = 'the ID of the player',
   ['setjob_param2'] = 'the job you wish to assign',
   ['setjob_param3'] = 'the job level',
+  ['setorg_param2'] = 'the org you wish to assign',
+  ['setorg_param3'] = 'the org level',
   ['spawn_car'] = 'spawn a car',
   ['spawn_car_param'] = 'name of car',
   ['delete_vehicle'] = 'deletes Vehicle',
