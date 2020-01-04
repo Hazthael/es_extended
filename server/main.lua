@@ -6,7 +6,7 @@ AddEventHandler('es:playerLoaded', function(source, _player)
 		accounts     = {},
 		inventory    = {},
 		job          = {},
-		org			 = {},=
+		org			 = {},
 		loadout      = {},
 		playerName   = GetPlayerName(playerId),
 		lastPosition = nil
