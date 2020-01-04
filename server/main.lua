@@ -188,9 +188,6 @@ AddEventHandler('es:playerLoaded', function(source, _player)
 
 			end)
 
-			Async.series(tasks2, cb)
-
-		end)
 
 		-- ORG INCLUDED
 		table.insert(tasks2, function(cb2)
