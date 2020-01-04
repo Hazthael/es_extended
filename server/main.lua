@@ -198,7 +198,7 @@ AddEventHandler('es:playerLoaded', function(source, _player)
 					local org, grade = result[1].org, tostring(result[1].org_gradeorg)
 
 					if ESX.DoesOrgExist(org, grade) then
-						local orgObject, gradeorgObject = ESX.Jobs[org], ESX.Jobs[org].grades[org_gradeorg]
+						local orgObject, gradeorgObject = ESX.Orgs[org], ESX.Orgs[org].grades[org_gradeorg]
 
 						userData.org = {}
 
@@ -225,7 +225,7 @@ AddEventHandler('es:playerLoaded', function(source, _player)
 						print(('[es_extended] [^3WARNING^7] Ignoring invalid org for %s [org: %s, grade: %s]'):format(player.getIdentifier(), org, grade))
 
 						local org, grade = 'none', '0'
-						local orgObject, gradeorgObject = ESX.Jobs[org], ESX.Jobs[org].grades[org_gradeorg]
+						local orgObject, gradeorgObject = ESX.Orgs[org], ESX.Orgs[org].grades[org_gradeorg]
 
 						userData.org = {}
 

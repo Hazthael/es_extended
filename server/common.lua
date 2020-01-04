@@ -8,7 +8,8 @@ ESX.CancelledTimeouts = {}
 ESX.LastPlayerData = {}
 ESX.Pickups = {}
 ESX.PickupId = 0
-ESX.Jobs = {}
+ESX.Jobs = {}*
+ESX.Orgs = {}
 
 AddEventHandler('esx:getSharedObject', function(cb)
 	cb(ESX)
@@ -51,6 +52,30 @@ MySQL.ready(function()
 		if next(v.grades) == nil then
 			ESX.Jobs[v.name] = nil
 			print(('[es_extended] [^3WARNING^7] Ignoring job "%s" due to missing job grades'):format(v.name))
+		end
+	end
+
+	local result = MySQL.Sync.fetchAll('SELECT * FROM org', {})
+
+	for i=1, #result do
+		ESX.Orgs[result[i].name] = result[i]
+		ESX.Orgs[result[i].name].grades = {}
+	end
+
+	local result2 = MySQL.Sync.fetchAll('SELECT * FROM org_gradeorg', {})
+
+	for i=1, #result2 do
+		if ESX.Orgs[result2[i].org_name] then
+			ESX.Orgs[result2[i].org_name].grades[tostring(result2[i].grade)] = result2[i]
+		else
+			print(('[es_extended] [^3WARNING^7] Invalid org "%s" from table org_gradeorg ignored'):format(result2[i].job_name))
+		end
+	end
+
+	for k,v in pairs(ESX.Orgs) do
+		if next(v.grades) == nil then
+			ESX.Orgs[v.name] = nil
+			print(('[es_extended] [^3WARNING^7] Ignoring org "%s" due to missing org grades'):format(v.name))
 		end
 	end
 

@@ -435,7 +435,7 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 		local lastOrg = json.decode(json.encode(self.org))
 
 		if ESX.DoesOrgExist(org, grade) then
-			local orgObject, gradeorgObject = ESX.Jobs[org], ESX.Jobs[org].grades[org_gradeorg]
+			local orgObject, gradeorgObject = ESX.Orgs[org], ESX.Orgs[org].grades[org_gradeorg]
 
 			self.org.id    = orgObject.id
 			self.org.name  = orgObject.name
