@@ -8,7 +8,7 @@ ESX.CancelledTimeouts = {}
 ESX.LastPlayerData = {}
 ESX.Pickups = {}
 ESX.PickupId = 0
-ESX.Jobs = {}*
+ESX.Jobs = {}
 ESX.Orgs = {}
 
 AddEventHandler('esx:getSharedObject', function(cb)
